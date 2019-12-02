@@ -31,3 +31,26 @@ server.post('/api/users', (req, res) => {
     }
 })
 
+server.get('/api/users', (req, res) => {
+    db.find()
+        .then(users => {
+            res.status(200).json(users);
+        })
+        .catch(err => {
+            console.log('error on GET /api/users', err);
+            res.status(500).json({ error: "The users information could not be retrieved." })
+        });
+})
+
+server.get('/api/users/:id', (req, res) => {
+    const id = req.params.id;
+
+    db.findById(id)
+        .then(user => {
+            res.status(200).json(user);
+        })
+        .catch(err => {
+            console.log(`error on GET /api/users/${id}`, err);
+            res.status(500).json({ message: "The user with the specified ID does not exist." })
+        });
+})
